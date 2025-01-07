@@ -1,36 +1,683 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>- 404</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <title>- 404</title>
-  <style>
-    * {
-      color: red;
-    }
-    body {
-      background-color: black;
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Kaiz RestApi</title>
+
+    <!-- Favicons -->
+    <link href="https://8030.us.kg/file/26GZGBJqfhRl.jpeg" rel="icon">
+    <link href="https://8030.us.kg/file/26GZGBJqfhRl.jpeg" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Original+Surfer&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link href="https://ferdiz-afk.github.io/Nice/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://ferdiz-afk.github.io/Nice/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://ferdiz-afk.github.io/Nice/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="https://ferdiz-afk.github.io/Nice/assets/css/style.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        /* Sidebar Styles */
+        .nav-content {
+            display: none;
+            padding-left: 1rem;
+            background-color: rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-content.show {
+            display: block;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:not(.collapsed):hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .nav-link-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-content-item {
+            padding: 0.7rem 1rem;
+            display: block;
+            color: #012970;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .nav-content-item:hover {
+            background-color: rgba(0,0,0,0.05);
+            padding-left: 1.5rem;
+        }
+        
+        .chevron-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .chevron-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Preloader */
+.pre-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pre-loader-box {
+    text-align: center;
+}
+
+.loader-logo {
+    margin-bottom: 20px;
+}
+
+.progress-container {
+    width: 300px;
+    height: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 15px auto;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #4481eb, #04befe);
+    border-radius: 5px;
+    transition: width 0.5s ease;
+}
+
+.percent {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 10px 0;
+}
+
+.loading-text {
+    font-size: 16px;
+    color: #666;
+    margin-top: 10px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+        /* Card Styles */
+        .info-card {
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-icon {
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+/* Information Section Styles */
+.information-container {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.information-title {
+    color: #3b82f6;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.information-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    margin: 0 auto 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.information-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.information-text {
+    color: #000000;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.6;
+}
+
+.information-apikey {
+    margin-bottom: 1rem;
+}
+
+.apikey-label {
+    color: #000000;
+}
+
+.apikey-value {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.bug-report {
+    color: #000000;
+}
+
+.owner-text {
+    color: #60a5fa;
+    font-weight: bold;
+}
+
+/* Animation for the image */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+.information-image img {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .information-container {
+        padding: 1.5rem;
     }
 
-    .bg-divider {
-      background-color: pink;
+    .information-title {
+        font-size: 1.75rem;
     }
-    .w-divider {
-      width: 1px;
+
+    .information-text {
+        font-size: 1.1rem;
     }
-  </style>
+}
+
+/* Hover effects */
+.information-container:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+}
+
+.apikey-value:hover, .owner-text:hover {
+    text-shadow: 0 0 8px currentColor;
+    transition: text-shadow 0.3s ease;
+}
+        
+    </style>
 </head>
-<body class="font-sans antialiased">
-  <div class="flex flex-col items-center justify-center h-screen text-white">
-    <div class="flex h-5 items-center space-x-4">
-      <h1 class="text-4xl font-bold" style="color: pink">404</h1>
-      <div class="shrink-0 bg-divider border-none h-full w-divider" role="separator"></div>
-      <h2 style="color: #ffc0cb92">Page not found</h2>
-      <div class="shrink-0 bg-divider border-none h-full w-divider" role="separator"></div>
-      <a href="/login">login?</a>
+
+<body>
+    <!-- Preloader -->
+<div class="pre-loader">
+    <div class="pre-loader-box">
+        <div class="loader-logo">
+            <img src="https://8030.us.kg/file/26GZGBJqfhRl.jpeg" alt="YanzBotz" style="width: 100px; border-radius: 50%;" />
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="percent" id="percent1">0%</div>
+        <div class="loading-text">Loading...</div>
+    </div>
+</div>
+
+
+    <!-- Header -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="toggles">
+                <i id="toggle-icon" class="bi bi-list toggle-sidebar-btn"></i>
+            </div>
+        </div>
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <div class="position-relative">
+                            <img class="rounded-circle" src="https://8030.us.kg/file/26GZGBJqfhRl.jpeg" alt>
+                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="./dashboard.html">
+                                <i class="bi bi-house-door"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="https://wa.me//6285883359262">
+                                <i class="bi bi-person"></i>
+                                <span>Login</span>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="https://wa.me//6285883359262">
+                                <i class="bi bi-person-add"></i>
+                                <span>Register</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <h1 class="text-2xl text-center mt-4">Kaiz - <span class="text-primary">RestApi</span></h1>
+            
+            <!-- Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="./dashboard.html">
+                    <div class="nav-link-content">
+                        <i class="bi bi-house"></i>
+                        <span>Dashboard</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- Downloader -->
+            <li class="nav-item">
+                <div class="nav-link collapsed">
+                    <div class="nav-link-content">
+                        <i class="bi bi-download"></i>
+                        <span>Downloader</span>
+                    </div>
+                    <i class="bi bi-chevron-down chevron-icon"></i>
+                </div>
+                <ul class="nav-content">
+                    <li><a class="nav-content-item" href="/ytmp4?urls=https://youtu.be/nyuo9-OjNNg?si=NZnGXDxotU2UoNkb&apiKey=">Youtube Downloader</a></li>
+                    <li><a class="nav-content-item" href="/tiktokDL?urls=https://vt.tiktok.com/ZSj2Yd6LX&apiKey=">TikTok Downloader</a></li>
+                    <li><a class="nav-content-item" href="/instagramDL?urls=https://www.instagram.com/reel/DBtKXb5yc03/?igsh=aDA1aGo2MzZjMWY1&apiKey=">Instagram Downloader</a></li>
+                    <li><a class="nav-content-item" href="/Facebook?urls=https://www.instagram.com/reel/DBtKXb5yc03/?igsh=aDA1aGo2MzZjMWY1&apiKey=">Facebook Downloader</a></li>
+                </ul>
+            </li>
+
+            <!-- Information -->
+            <li class="nav-item">
+                <div class="nav-link collapsed">
+                    <div class="nav-link-content">
+                        <i class="bi bi-info-circle"></i>
+                        <span>Information</span>
+                    </div>
+                    <i class="bi bi-chevron-down chevron-icon"></i>
+                </div>
+                <ul class="nav-content">
+                    <li><a class="nav-content-item" href="/iplookup?ip=&apiKey=">IP Lookup</a></li>
+                    <li><a class="nav-content-item" href="/cuaca?city=jakart&apiKey=">Weather Info</a></li>
+                    <li><a class="nav-content-item" href="/crypto?=bitcoin&currency=usd&apiKey=">Crypto Prices</a></li>
+                </ul>
+            </li>
+
+            <!-- Tools -->
+            <li class="nav-item">
+                <div class="nav-link collapsed">
+                    <div class="nav-link-content">
+                        <i class="bi bi-tools"></i>
+                        <span>Tools</span>
+                    </div>
+                    <i class="bi bi-chevron-down chevron-icon"></i>
+                </div>
+                <ul class="nav-content">
+                    <li><a class="nav-content-item" href="/shorturl?url=https://youtu.be/nyuo9-OjNNg?si=NZnGXDxotU2UoNkb&apiKey=">URL Shortener</a></li>
+                    <li><a class="nav-content-item" href="/style?q=">Style</a></li>
+                </ul>
+            </li>
+
+            <!-- AI -->
+            <li class="nav-item">
+                <div class="nav-link collapsed">
+                    <div class="nav-link-content">
+                        <i class="bi bi-robot"></i>
+                        <span>AI</span>
+                    </div>
+                    <i class="bi bi-chevron-down chevron-icon"></i>
+                </div>
+                <ul class="nav-content">
+                    <li><a class="nav-content-item" href="/blekbok?q=hai&apiKey=">ChatGPT</a></li>
+                    <li><a class="nav-content-item" href="dalle?promt=&apiKey=">DALL-E</a></li>
+                </ul>
+            </li>
+
+            <!-- All other menu items from original -->
+            <!-- Text to Speech -->
+            <li class="nav-item">
+                <div class="nav-link collapsed">
+                    <div class="nav-link-content">
+                        <i class="bi bi-mic"></i>
+                        <span>Text To Speech</span>
+                    </div>
+                    <i class="bi bi-chevron-down chevron-icon"></i>
+                </div>
+                <ul class="nav-content">
+                    <li><a class="nav-content-item" href="/to-audio?text=Hello%20world&apiKey=">Google TTS</a></li>
+                </ul>
+            </li>
+
+            <!-- Contact Section -->
+            <li class="nav-heading">Contact</li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="https://wa.me//6285883359262" target="_blank">
+                    <i class="bi bi-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="https://github.com/YanzBotz" target="_blank">
+                    <i class="bi bi-github"></i>
+                    <span>Github</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="main" class="main">
+        <section class="section dashboard">
+            <div class="row">
+                <!-- Clock Card -->
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Clock</h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon alert alert-primary rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-clock"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <div class="weight-700 font-24 text-dark" id="browser_info">000</div>
+                                    <div class="font-14 text-secondary weight-500" id="browser_sholat">waktu</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visitors Card -->
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Visitors</h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon alert alert-info rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-graph-up"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <div class="weight-700 font-24 text-dark" id="visitor-count">0</div>
+                                    <div class="font-14 text-secondary weight-500">visitors</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<div class="col-xxl-4 col-xl-12">
+<div class="card info-card ">
+<div class="card-body">
+<h5 class="card-title">Battery Info</h5>
+<div class="d-flex align-items-center">
+<div class="card-icon alert alert-success rounded-circle d-flex align-items-center justify-content-center">
+<i class="bi bi-battery-full"></i>
+</div>
+<div class="ps-3">
+<div class="weight-700 font-24 text-dark" id="battery-level">%</div>
+<div class="font-14 text-secondary weight-500" id="charging-status">charging</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xxl-4 col-xl-12">
+  <div class="card info-card">
+    <div class="card-body">
+      <h5 class="card-title">IP Info</h5>
+      <div class="d-flex align-items-center">
+        <div class="card-icon alert alert-primary rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-wifi"></i>
+        </div>
+        <div class="ps-3">
+          <div class="weight-700 font-24 text-dark" id="ip-address">Loading...</div>
+          <div class="font-14 text-secondary weight-500" id="location-info">Fetching IP...</div>
+        </div>
+      </div>
     </div>
   </div>
-</body>
-</html>
+</div>
+<div class="information-container">
+    <div class="information-image">
+        <img src="https://8030.us.kg/file/Tx4hRRlMRu20.gif" alt="Animated character">
+    </div>
+    
+    <h2 class="information-title">Information</h2>
+    
+    <p class="information-text">
+        Rest Api Ini Free, Silahakan di pake dengan bijak. hindari kegiatan yang merugikan api
+    </p>
+    
+    <div class="information-apikey">
+        <span class="apikey-label">Apikey Nya? </span>
+        <span class="apikey-value">jkai limit: 1000</span>
+    </div>
+    
+    <div class="bug-report">
+        Jika menemukan bug lapor 
+        <span class="owner-text">Owner</span>
+    </div>
+</div>
+</section>
+</main>
+<script>
+function _0x4d6b(){const _0xd2a262=['2660676XuArIx','Set\x20status\x20','5365104VpzLLa','getElementById','charging-status','catch','998625JJqAsd','getBattery','innerHTML','14021jMITDP','discharging','534WjNzoR','levelchange','Battery\x20API\x20not\x20supported\x20on\x20your\x20device/computer','15461874zdgmbZ','632549wgonVK','1313812hYKzgJ','then','addEventListener','level','3vFaNIH'];_0x4d6b=function(){return _0xd2a262;};return _0x4d6b();}function _0x15c3(_0x58ef58,_0x1982bc){const _0x4d6b59=_0x4d6b();return _0x15c3=function(_0x15c3a9,_0x160f0f){_0x15c3a9=_0x15c3a9-0x130;let _0x2a1c9b=_0x4d6b59[_0x15c3a9];return _0x2a1c9b;},_0x15c3(_0x58ef58,_0x1982bc);}(function(_0x1d5cc2,_0x31213d){const _0x379195=_0x15c3,_0x2254a1=_0x1d5cc2();while(!![]){try{const _0x568cc5=parseInt(_0x379195(0x13d))/0x1+-parseInt(_0x379195(0x13e))/0x2*(parseInt(_0x379195(0x142))/0x3)+-parseInt(_0x379195(0x143))/0x4+-parseInt(_0x379195(0x134))/0x5+parseInt(_0x379195(0x139))/0x6*(parseInt(_0x379195(0x137))/0x7)+-parseInt(_0x379195(0x130))/0x8+parseInt(_0x379195(0x13c))/0x9;if(_0x568cc5===_0x31213d)break;else _0x2254a1['push'](_0x2254a1['shift']());}catch(_0x131a91){_0x2254a1['push'](_0x2254a1['shift']());}}}(_0x4d6b,0x521ec),(function(){const _0x5b9e1d=_0x15c3;let _0x37c3c3=document[_0x5b9e1d(0x131)]('battery-level'),_0x105597=document[_0x5b9e1d(0x131)](_0x5b9e1d(0x132));navigator[_0x5b9e1d(0x135)]()[_0x5b9e1d(0x13f)](_0x17cae5=>{const _0x39a836=_0x5b9e1d;if(_0x17cae5){function _0x2e81e5(){const _0x2e6c3f=_0x15c3;_0x37c3c3[_0x2e6c3f(0x136)]=Math['round'](_0x17cae5[_0x2e6c3f(0x141)]*0x64)+'%',_0x105597[_0x2e6c3f(0x136)]=_0x17cae5['charging']?'⚡⚡':_0x2e6c3f(0x138),console['log'](_0x2e6c3f(0x144)+_0x37c3c3[_0x2e6c3f(0x136)]+'\x20'+_0x105597['innerHTML']);}_0x2e81e5(),_0x17cae5[_0x39a836(0x140)](_0x39a836(0x13a),_0x2e81e5,![]),_0x17cae5[_0x39a836(0x140)]('chargingchange',_0x2e81e5,![]);}else throw new Error(_0x39a836(0x13b));})[_0x5b9e1d(0x133)](_0x4a6576=>{});}()));
+</script>
+<script type="text/javascript">
+const _0x24abc0=_0x350d;function _0x350d(_0x2fead4,_0x45790b){const _0x2fc23e=_0x2fc2();return _0x350d=function(_0x350dbd,_0x588639){_0x350dbd=_0x350dbd-0x6f;let _0x49ad6a=_0x2fc23e[_0x350dbd];return _0x49ad6a;},_0x350d(_0x2fead4,_0x45790b);}(function(_0x3c626b,_0x26ea26){const _0x1419bd=_0x350d,_0x3eab1f=_0x3c626b();while(!![]){try{const _0x2c11cc=-parseInt(_0x1419bd(0x79))/0x1+-parseInt(_0x1419bd(0x6f))/0x2*(parseInt(_0x1419bd(0x8a))/0x3)+parseInt(_0x1419bd(0x76))/0x4*(-parseInt(_0x1419bd(0x81))/0x5)+-parseInt(_0x1419bd(0x85))/0x6+parseInt(_0x1419bd(0x7f))/0x7*(parseInt(_0x1419bd(0x71))/0x8)+parseInt(_0x1419bd(0x7b))/0x9+-parseInt(_0x1419bd(0x70))/0xa*(-parseInt(_0x1419bd(0x78))/0xb);if(_0x2c11cc===_0x26ea26)break;else _0x3eab1f['push'](_0x3eab1f['shift']());}catch(_0x3e22a7){_0x3eab1f['push'](_0x3eab1f['shift']());}}}(_0x2fc2,0x2b479));let text_el=document['querySelector']('div#browser_info'),hSalam=document[_0x24abc0(0x7c)](_0x24abc0(0x89));setInterval(()=>{const _0x1ace5e=_0x24abc0,_0x2789a8=new Date(),_0x3a29af=_0x2789a8[_0x1ace5e(0x80)]()[_0x1ace5e(0x86)]()[_0x1ace5e(0x75)](0x2,'0'),_0x10a4d5=_0x2789a8[_0x1ace5e(0x7e)]()[_0x1ace5e(0x86)]()['padStart'](0x2,'0'),_0x3935c6=_0x2789a8['getSeconds']()[_0x1ace5e(0x86)]()[_0x1ace5e(0x75)](0x2,'0'),_0x5efad9=getGreeting(_0x3a29af);hSalam['innerHTML']=_0x5efad9,text_el[_0x1ace5e(0x7d)]=_0x3a29af+':'+_0x10a4d5+':'+_0x3935c6;},0xfa);function _0x2fc2(){const _0x1b2840=['innerHTML','getMinutes','28749ysACWq','getHours','5TCmjaM','18:10','Selamat\x20Siang\x20kak!','17:00','497082ARUYsP','toString','10:00','Petang!','div#browser_sholat','318165KAGcwY','2DFLDpA','10BcczGZ','280PNGAjL','14:00','17:30','06:00','padStart','1082220lOrvPZ','Good\x20morning\x20sis,\x20don`t\x20forget\x20to\x20start\x20the\x20day\x20with\x20a\x20cup\x20of\x20coffee\x20☕\x20!','3862573RldGdB','173225CJSMvV','Selamat\x20Sorre\x20kak!','2835603bwoyix','querySelector'];_0x2fc2=function(){return _0x1b2840;};return _0x2fc2();}function getGreeting(_0x268eb2){const _0x4ad14e=_0x24abc0;if(_0x268eb2>='04:00'&&_0x268eb2<='06:00')return'Subuh!';else{if(_0x268eb2>=_0x4ad14e(0x74)&&_0x268eb2<=_0x4ad14e(0x87))return _0x4ad14e(0x77);else{if(_0x268eb2>='10:00'&&_0x268eb2<='14:00')return _0x4ad14e(0x83);else{if(_0x268eb2>=_0x4ad14e(0x72)&&_0x268eb2<=_0x4ad14e(0x84))return _0x4ad14e(0x7a);else{if(_0x268eb2>=_0x4ad14e(0x84)&&_0x268eb2<='17:30')return _0x4ad14e(0x88);else return _0x268eb2>=_0x4ad14e(0x73)&&_0x268eb2<=_0x4ad14e(0x82)?'Magrib!':'Selamat\x20Malam\x20kak!';}}}}}
+</script>
+<footer id="footer" class="footer">
+<div class="copyright">
+&copy; Copyright
+<strong>
+<span id="copyrightYearRange"></span>
+</strong> Kaiz RestApi
+</div>
+</footer>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+<i class="bi bi-arrow-up-short"></i>
+</a>
+<script src="https://ferdiz-afk.github.io/Nice/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="https://ferdiz-afk.github.io/Nice/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://ferdiz-afk.github.io/Nice/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="https://ferdiz-afk.github.io/Nice/assets/vendor/echarts/echarts.min.js"></script>
+<script src="https://ferdiz-afk.github.io/Nice/assets/vendor/quill/quill.min.js"></script>
+<script src="https://ferdiz-afk.github.io/Nice/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="https://ferdiz-afk.github.io/Nice/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="https://ferdiz-afk.github.io/Nice/assets/vendor/php-email-form/validate.js"></script>
+<script src="https://ferdiz-afk.github.io/Nice/assets/js/main.js"></script>
+<script>
+function _0x1a07(_0x30a0f7,_0x266da4){const _0x1ce287=_0x1ce2();return _0x1a07=function(_0x1a0725,_0x5ca3e5){_0x1a0725=_0x1a0725-0x76;let _0x3ae4ff=_0x1ce287[_0x1a0725];return _0x3ae4ff;},_0x1a07(_0x30a0f7,_0x266da4);}const _0x319bab=_0x1a07;(function(_0x6e8eeb,_0x4ad3ed){const _0x58471e=_0x1a07,_0x258bc3=_0x6e8eeb();while(!![]){try{const _0x3fafff=parseInt(_0x58471e(0x7d))/0x1*(parseInt(_0x58471e(0x79))/0x2)+parseInt(_0x58471e(0x8a))/0x3+-parseInt(_0x58471e(0x81))/0x4+parseInt(_0x58471e(0x76))/0x5+parseInt(_0x58471e(0x7b))/0x6+parseInt(_0x58471e(0x7e))/0x7*(-parseInt(_0x58471e(0x7a))/0x8)+parseInt(_0x58471e(0x78))/0x9*(parseInt(_0x58471e(0x7c))/0xa);if(_0x3fafff===_0x4ad3ed)break;else _0x258bc3['push'](_0x258bc3['shift']());}catch(_0x196846){_0x258bc3['push'](_0x258bc3['shift']());}}}(_0x1ce2,0x35ba2));const screen=document[_0x319bab(0x84)]('screen');window[_0x319bab(0x82)](_0x319bab(0x87),0x3e8);function getScreen(){const _0x5e9b56=_0x319bab,_0xd8440a=window[_0x5e9b56(0x86)][_0x5e9b56(0x77)],_0x211ff9=window[_0x5e9b56(0x86)][_0x5e9b56(0x80)],_0xc4ab0b=window[_0x5e9b56(0x86)]['orientation'][_0x5e9b56(0x88)];screen[_0x5e9b56(0x89)]=_0x5e9b56(0x7f)+_0xd8440a+_0x5e9b56(0x85)+_0x211ff9+_0x5e9b56(0x83)+_0xc4ab0b;};function _0x1ce2(){const _0x52c21c=['4wWTrlp','95464bSbxdl','26292KEwNlx','10vESUvz','1653kACYar','35CGDAHT','Width\x20','height','771584TWYbry','setTimeout',',\x20Orientation\x20','getElementById',',\x20Height\x20','screen','getScreen()','type','textContent','22971iutlEQ','995865MhFrZB','width','2322981rPFUfN'];_0x1ce2=function(){return _0x52c21c;};return _0x1ce2();}
+  </script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    $("#open-modal-btn").on("click", function() {
+      $("#iframeModal").modal("show");
+    });
+  </script>
+<script>
+// [Visitor]
+fetch("https://visitor.api.akuari.my.id/umum/view/tambah-ip?id=https://sstiktdl.us.kg")
+  .then((response) => response.json())
+  .then((data) => {
+    const visitorCount = data?.visitor?.total; 
+    if (visitorCount !== undefined) {
+      document.getElementById("visitor-count").innerText = visitorCount;
+    } else {
+      console.error("Visitor count not available.");
+    }
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+  });
+
+// [Total Request]
+function updateTotalRequests(totalRequests) {
+  const totalRequestsElement = document.getElementById('total-requests');
+  totalRequestsElement.textContent = totalRequests;
+}
+
+const sse = new EventSource('/sse-total-requests');
+sse.onmessage = (event) => {
+  const totalRequests = event?.data;
+  if (totalRequests !== undefined) {
+    updateTotalRequests(totalRequests);
+  } else {
+    console.error("Total requests data not available.");
+  }
+};
+
+// [Year]
+const currentYear = new Date().getFullYear();
+const startYear = 2023;
+
+document.getElementById('copyrightYearRange').innerText = `${startYear}-${currentYear}`;
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://dropways.github.io/deskapp/vendors/scripts/core.js"></script>
+<script src="https://dropways.github.io/deskapp/vendors/scripts/script.min.js"></script>
+<script src="https://dropways.github.io/deskapp/vendors/scripts/process.js"></script>
+<script src="https://dropways.github.io/deskapp/vendors/scripts/layout-settings.js"></script>
+<script src="https://dropways.github.io/deskapp/src/plugins/cropperjs/dist/cropper.js"></script>
+<script src="https://dropways.github.io/deskapp/src/plugins/apexcharts/apexcharts.min.js"></script>
+<script src="https://dropways.github.io/deskapp/src/plugins/datatables/js/jquery.dataTables.min.js"></script>
+<script src="https://dropways.github.io/deskapp/src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://dropways.github.io/deskapp/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
+<script src="https://dropways.github.io/deskapp/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+<script>
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-link.collapsed');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Prevent default anchor behavior
+            e.preventDefault();
+            
+            // Toggle the 'collapsed' class on the clicked nav link
+            this.classList.toggle('collapsed');
+            
+            // Get the chevron icon within this nav link
+            const chevron = this.querySelector('.chevron-icon');
+            chevron.classList.toggle('rotated');
+            
+            // Get the next sibling nav-content
+            const content = this.nextElementSibling;
+            
+            // Toggle the 'show' class on the content
+            if (content && content.classList.contains('nav-content')) {
+                content.classList.toggle('show');
+                
+                // Close other open menus
+                const otherContents = document.querySelectorAll('.nav-content.show');
+                otherContents.forEach(otherContent => {
+                    if (otherContent !== content) {
+                        otherContent.classList.remove('show');
+                        const otherNav = otherContent.previousElementSibling;
+                        if (otherNav) {
+                            otherNav.classList.add('collapsed');
+                            const otherChevron = otherNav.querySelector('.chevron-icon');
+                            if (otherChevron) {
+                                otherChevron.classList.remove('rotated');
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    });
+});
+fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('ip-address').innerText = data.ip;
+      document.getElementById('location-info').innerText = "Public Network";
+    })
+    .catch(error => {
+      document.getElementById('ip-address').innerText = "Error";
+      document.getElementById('location-info').innerText = "Unable to fetch IP";
+      console.error("Error fetching IP:", error);
+    });
+document.addEventListener('DOMContentLoaded', function() {
+    const progressBar = document.getElementById('progress-bar');
+    const percentText = document.getElementById('percent1');
+    const preLoader = document.querySelector('.pre-loader');
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+        if (progress < 100) {
+            progress += Math.random() * 10;
+            if (progress > 100) progress = 100;
+            
+            progressBar.style.width = `${progress}%`;
+            percentText.textContent = `${Math.round(progress)}%`;
+            
+            if (progress === 100) {
+                setTimeout(() => {
+                    preLoader.style.display = 'none';
+                }, 500);
+                clearInterval(interval);
+            }
+        }
+    }, 200);
+});
+    </script>
+<script>(function(){var js = "window['__CF$cv$params']={r:'7f354729da3b18be',t:'MTY5MTQ3MTY5MC4yMTUwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/invisible.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+                                                                                                                                                        </html>
