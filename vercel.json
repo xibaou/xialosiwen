@@ -6,8 +6,6 @@
       "use": "@vercel/node"
     }
   ],
-  "functions": {
-    "runtime": "nodejs18.x"  
   "routes": [
     {
       "src": "/(.*)",
