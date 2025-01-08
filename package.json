@@ -19,6 +19,6 @@
     "cheerio": "^1.0.0-rc.12",
     "node-fetch": "^2.6.7",
     "node-gtts": "^2.0.1",
-    "canvas": "^2.11.0"
+    "@napi-rs/canvas": "^0.2.0"
   }
 }
