@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
   if (!ip) {
     return res.status(400).json({
-      error: "IP Address apa?",
+      error: "IP Address nya mana?",
     });
   }
 
