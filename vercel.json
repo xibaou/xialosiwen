@@ -6,6 +6,9 @@
       "use": "@vercel/node"
     }
   ],
+  "functions": {
+    "runtime": "nodejs18.x"  // Tentukan versi Node.js
+  },
   "routes": [
     {
       "src": "/(.*)",
