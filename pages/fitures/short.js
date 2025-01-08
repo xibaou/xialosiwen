@@ -27,9 +27,8 @@ module.exports = async (req, res) => {
     { name: "TinyURL", method: tinyurl },
     { name: "CleanURI", method: cleanuri },
     { name: "1pt", method: onept },
-    { name: "is.gd", method: isgd },
-    { name: "v.gd", method: vgd },
-    { name: "GoTiny", method: gotiny },
+    { name: "is.gd", method: isgd }, // Menambahkan is.gd
+    { name: "v.gd", method: vgd },   // Menambahkan v.gd
   ];
 
   const results = await Promise.all(
@@ -44,9 +43,11 @@ module.exports = async (req, res) => {
   );
 
   res.status(200).json({
-    creator: "kaizel jskai", // Menambahkan nama kreator
+    creator: "KaizelJS", // Menyertakan nama kreator
+    version: "1.0.2",    // Versi API
     original_url: url,
     short_urls: results,
+    message: "Powered by KaizelJS - Stylish URL Shortener",
   });
 };
 
@@ -81,14 +82,4 @@ async function vgd(url) {
   const response = await fetch(`https://v.gd/create.php?format=json&url=${url}`);
   const result = await response.json();
   return result.shorturl;
-}
-
-async function gotiny(url) {
-  const response = await fetch("https://gotiny.cc/api", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ input: url }),
-  });
-  const result = await response.json();
-  return `https://gotiny.cc/${result[0]?.code}`;
 }
