@@ -16,7 +16,7 @@ async function tiktokTts(text) {
     );
     return data; // Mengembalikan hasil data audio
   } catch (err) {
-    console.error("Error:", err.response?.data || err.message);
+    console.error("API Error:", err.response?.data || err.message);
     return null; // Mengembalikan null jika terjadi error
   }
 }
@@ -53,6 +53,7 @@ module.exports = async (req, res) => {
       audio_base64: audioData.audio, // Audio dalam format Base64
     });
   } catch (error) {
+    console.error("Endpoint Error:", error.message);
     res.status(500).json({
       error: "Ada masalah, coba lagi nanti",
     });
