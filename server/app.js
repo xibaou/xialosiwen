@@ -77,10 +77,10 @@ app.get("/tiktokDL", limit, async (req, res) => {
     require("../pages/fitures/tiktok.js")(req, res)
 })
 app.get("/shorturl", limit, async (req, res) => {
-    require("../pages/fitures/shorturl.js")(req, res)
+    require("../pages/fitures/short.js")(req, res)
 })
 app.get("/style", limit, async (req, res) => {
-    require("../pages/fitures/style.js")(req, res)
+    require("../pages/fitures/sty.js")(req, res)
 })
 app.get("/instagramDL", limit, async (req, res) => {
     require("../pages/fitures/instagram.js")(req, res)
