@@ -7,8 +7,7 @@
     }
   ],
   "functions": {
-    "runtime": "nodejs18.x"  // Tentukan versi Node.js
-  },
+    "runtime": "nodejs18.x"  
   "routes": [
     {
       "src": "/(.*)",
