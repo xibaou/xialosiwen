@@ -64,6 +64,12 @@ app.get("/prof", isAuthenticated, (req, res) => {
 app.get("/blekbok", limit, async (req, res) => {
     require("../pages/fitures/blackbox.js")(req, res)
 })
+app.get("/iplookup", limit, async (req, res) => {
+    require("../pages/fitures/ip.js")(req, res)
+})
+app.get("/cuaca", limit, async (req, res) => {
+    require("../pages/fitures/cuaca.js")(req, res)
+})
 app.get("/crypto", limit, async (req, res) => {
     require("../pages/fitures/cripto.js")(req, res)
 })
