@@ -85,6 +85,9 @@ app.get("/style", limit, async (req, res) => {
 app.get("/instagramDL", limit, async (req, res) => {
     require("../pages/fitures/instagram.js")(req, res)
 })
+app.get("/to-audio", limit, async (req, res) => {
+    require("../pages/fitures/toaudio.js")(req, res)
+})
 app.get("/Facebook", limit, async (req, res) => {
     require("../pages/fitures/fb.js")(req, res)
 })
