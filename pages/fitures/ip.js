@@ -18,10 +18,11 @@ module.exports = async (req, res) => {
   }
 
   const ipLookupUrl = `https://ipapi.co/${ip}/json/`; // API untuk IP lookup
+  const weatherApiKey = "060a6bcfa19809c2cd4d97a212b19273"; // OpenWeatherMap API Key
 
   try {
+    // Mendapatkan data IP
     const response = await axios.get(ipLookupUrl);
-
     if (response.status !== 200) {
       return res.status(response.status).json({
         error: "Gagal mendapatkan data dari layanan IP lookup.",
@@ -29,6 +30,14 @@ module.exports = async (req, res) => {
     }
 
     const data = response.data;
+
+    // Mendapatkan kondisi cuaca berdasarkan lokasi
+    let weatherData = null;
+    if (data.latitude && data.longitude) {
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${data.latitude}&lon=${data.longitude}&appid=${weatherApiKey}&units=metric`;
+      const weatherResponse = await axios.get(weatherUrl);
+      weatherData = weatherResponse.data;
+    }
 
     res.status(200).json({
       creator: "kaizel jskai", // Metadata creator
@@ -41,17 +50,28 @@ module.exports = async (req, res) => {
       latitude: data.latitude || "Tidak tersedia",
       longitude: data.longitude || "Tidak tersedia",
       penyedia_layanan_internet: data.org || "Tidak tersedia",
+      is_vpn: data.security ? data.security.is_vpn : "Tidak tersedia",
+      peta_lokasi: data.latitude && data.longitude 
+        ? `https://www.google.com/maps?q=${data.latitude},${data.longitude}`
+        : "Tidak tersedia",
+      cuaca: weatherData 
+        ? {
+            deskripsi: weatherData.weather[0].description,
+            suhu: weatherData.main.temp,
+            kelembapan: weatherData.main.humidity,
+          }
+        : "Tidak tersedia",
     });
   } catch (error) {
     if (error.response) {
       // Error dari API eksternal
       res.status(error.response.status).json({
-        error: `Layanan IP lookup bermasalah: ${error.response.statusText}`,
+        error: `Layanan bermasalah: ${error.response.statusText}`,
       });
     } else if (error.request) {
       // Error jaringan
       res.status(503).json({
-        error: "Tidak dapat terhubung ke layanan IP lookup. Coba lagi nanti.",
+        error: "Tidak dapat terhubung ke layanan eksternal. Coba lagi nanti.",
       });
     } else {
       // Error lainnya
