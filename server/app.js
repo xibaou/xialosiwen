@@ -79,6 +79,9 @@ app.get("/tiktokDL", limit, async (req, res) => {
 app.get("/shorturl", limit, async (req, res) => {
     require("../pages/fitures/short.js")(req, res)
 })
+app.get("/ytmp4", limit, async (req, res) => {
+    require("../pages/fitures/yt.js")(req, res)
+})
 app.get("/style", limit, async (req, res) => {
     require("../pages/fitures/sty.js")(req, res)
 })
