@@ -526,10 +526,83 @@
 </section>
 </main>
 <script>
-function _0x4d6b(){const _0xd2a262=['2660676XuArIx','Set\x20status\x20','5365104VpzLLa','getElementById','charging-status','catch','998625JJqAsd','getBattery','innerHTML','14021jMITDP','discharging','534WjNzoR','levelchange','Battery\x20API\x20not\x20supported\x20on\x20your\x20device/computer','15461874zdgmbZ','632549wgonVK','1313812hYKzgJ','then','addEventListener','level','3vFaNIH'];_0x4d6b=function(){return _0xd2a262;};return _0x4d6b();}function _0x15c3(_0x58ef58,_0x1982bc){const _0x4d6b59=_0x4d6b();return _0x15c3=function(_0x15c3a9,_0x160f0f){_0x15c3a9=_0x15c3a9-0x130;let _0x2a1c9b=_0x4d6b59[_0x15c3a9];return _0x2a1c9b;},_0x15c3(_0x58ef58,_0x1982bc);}(function(_0x1d5cc2,_0x31213d){const _0x379195=_0x15c3,_0x2254a1=_0x1d5cc2();while(!![]){try{const _0x568cc5=parseInt(_0x379195(0x13d))/0x1+-parseInt(_0x379195(0x13e))/0x2*(parseInt(_0x379195(0x142))/0x3)+-parseInt(_0x379195(0x143))/0x4+-parseInt(_0x379195(0x134))/0x5+parseInt(_0x379195(0x139))/0x6*(parseInt(_0x379195(0x137))/0x7)+-parseInt(_0x379195(0x130))/0x8+parseInt(_0x379195(0x13c))/0x9;if(_0x568cc5===_0x31213d)break;else _0x2254a1['push'](_0x2254a1['shift']());}catch(_0x131a91){_0x2254a1['push'](_0x2254a1['shift']());}}}(_0x4d6b,0x521ec),(function(){const _0x5b9e1d=_0x15c3;let _0x37c3c3=document[_0x5b9e1d(0x131)]('battery-level'),_0x105597=document[_0x5b9e1d(0x131)](_0x5b9e1d(0x132));navigator[_0x5b9e1d(0x135)]()[_0x5b9e1d(0x13f)](_0x17cae5=>{const _0x39a836=_0x5b9e1d;if(_0x17cae5){function _0x2e81e5(){const _0x2e6c3f=_0x15c3;_0x37c3c3[_0x2e6c3f(0x136)]=Math['round'](_0x17cae5[_0x2e6c3f(0x141)]*0x64)+'%',_0x105597[_0x2e6c3f(0x136)]=_0x17cae5['charging']?'⚡⚡':_0x2e6c3f(0x138),console['log'](_0x2e6c3f(0x144)+_0x37c3c3[_0x2e6c3f(0x136)]+'\x20'+_0x105597['innerHTML']);}_0x2e81e5(),_0x17cae5[_0x39a836(0x140)](_0x39a836(0x13a),_0x2e81e5,![]),_0x17cae5[_0x39a836(0x140)]('chargingchange',_0x2e81e5,![]);}else throw new Error(_0x39a836(0x13b));})[_0x5b9e1d(0x133)](_0x4a6576=>{});}()));
+(function() {
+    // Ambil elemen HTML untuk menampilkan level dan status baterai
+    let batteryLevelElement = document.getElementById('battery-level');
+    let chargingStatusElement = document.getElementById('charging-status');
+
+    // Gunakan Battery API
+    navigator.getBattery()
+        .then(battery => {
+            if (battery) {
+                // Fungsi untuk update tampilan status baterai
+                function updateBatteryStatus() {
+                    // Update level baterai (dalam persen)
+                    batteryLevelElement.innerHTML = Math.round(battery.level * 100) + '%';
+                    
+                    // Update status charging (⚡⚡ jika charging, "discharging" jika tidak)
+                    chargingStatusElement.innerHTML = battery.charging ? '⚡⚡' : 'discharging';
+                    
+                    // Log status ke console
+                    console.log('Set status ' + batteryLevelElement.innerHTML + ' ' + chargingStatusElement.innerHTML);
+                }
+
+                // Jalankan update pertama kali
+                updateBatteryStatus();
+
+                // Pasang event listener untuk perubahan level baterai
+                battery.addEventListener('levelchange', updateBatteryStatus, false);
+                
+                // Pasang event listener untuk perubahan status charging
+                battery.addEventListener('chargingchange', updateBatteryStatus, false);
+            } else {
+                throw new Error('Battery API not supported on your device/computer');
+            }
+        })
+        .catch(error => {
+            // Handle error tanpa melakukan apa-apa
+        });
+})();
 </script>
-<script type="text/javascript">
-const _0x24abc0=_0x350d;function _0x350d(_0x2fead4,_0x45790b){const _0x2fc23e=_0x2fc2();return _0x350d=function(_0x350dbd,_0x588639){_0x350dbd=_0x350dbd-0x6f;let _0x49ad6a=_0x2fc23e[_0x350dbd];return _0x49ad6a;},_0x350d(_0x2fead4,_0x45790b);}(function(_0x3c626b,_0x26ea26){const _0x1419bd=_0x350d,_0x3eab1f=_0x3c626b();while(!![]){try{const _0x2c11cc=-parseInt(_0x1419bd(0x79))/0x1+-parseInt(_0x1419bd(0x6f))/0x2*(parseInt(_0x1419bd(0x8a))/0x3)+parseInt(_0x1419bd(0x76))/0x4*(-parseInt(_0x1419bd(0x81))/0x5)+-parseInt(_0x1419bd(0x85))/0x6+parseInt(_0x1419bd(0x7f))/0x7*(parseInt(_0x1419bd(0x71))/0x8)+parseInt(_0x1419bd(0x7b))/0x9+-parseInt(_0x1419bd(0x70))/0xa*(-parseInt(_0x1419bd(0x78))/0xb);if(_0x2c11cc===_0x26ea26)break;else _0x3eab1f['push'](_0x3eab1f['shift']());}catch(_0x3e22a7){_0x3eab1f['push'](_0x3eab1f['shift']());}}}(_0x2fc2,0x2b479));let text_el=document['querySelector']('div#browser_info'),hSalam=document[_0x24abc0(0x7c)](_0x24abc0(0x89));setInterval(()=>{const _0x1ace5e=_0x24abc0,_0x2789a8=new Date(),_0x3a29af=_0x2789a8[_0x1ace5e(0x80)]()[_0x1ace5e(0x86)]()[_0x1ace5e(0x75)](0x2,'0'),_0x10a4d5=_0x2789a8[_0x1ace5e(0x7e)]()[_0x1ace5e(0x86)]()['padStart'](0x2,'0'),_0x3935c6=_0x2789a8['getSeconds']()[_0x1ace5e(0x86)]()[_0x1ace5e(0x75)](0x2,'0'),_0x5efad9=getGreeting(_0x3a29af);hSalam['innerHTML']=_0x5efad9,text_el[_0x1ace5e(0x7d)]=_0x3a29af+':'+_0x10a4d5+':'+_0x3935c6;},0xfa);function _0x2fc2(){const _0x1b2840=['innerHTML','getMinutes','28749ysACWq','getHours','5TCmjaM','18:10','Selamat\x20Siang\x20kak!','17:00','497082ARUYsP','toString','10:00','Petang!','div#browser_sholat','318165KAGcwY','2DFLDpA','10BcczGZ','280PNGAjL','14:00','17:30','06:00','padStart','1082220lOrvPZ','Good\x20morning\x20sis,\x20don`t\x20forget\x20to\x20start\x20the\x20day\x20with\x20a\x20cup\x20of\x20coffee\x20☕\x20!','3862573RldGdB','173225CJSMvV','Selamat\x20Sorre\x20kak!','2835603bwoyix','querySelector'];_0x2fc2=function(){return _0x1b2840;};return _0x2fc2();}function getGreeting(_0x268eb2){const _0x4ad14e=_0x24abc0;if(_0x268eb2>='04:00'&&_0x268eb2<='06:00')return'Subuh!';else{if(_0x268eb2>=_0x4ad14e(0x74)&&_0x268eb2<=_0x4ad14e(0x87))return _0x4ad14e(0x77);else{if(_0x268eb2>='10:00'&&_0x268eb2<='14:00')return _0x4ad14e(0x83);else{if(_0x268eb2>=_0x4ad14e(0x72)&&_0x268eb2<=_0x4ad14e(0x84))return _0x4ad14e(0x7a);else{if(_0x268eb2>=_0x4ad14e(0x84)&&_0x268eb2<='17:30')return _0x4ad14e(0x88);else return _0x268eb2>=_0x4ad14e(0x73)&&_0x268eb2<=_0x4ad14e(0x82)?'Magrib!':'Selamat\x20Malam\x20kak!';}}}}}
+<script>
+// Mengambil elemen HTML
+let text_el = document.querySelector('div#browser_info');
+let hSalam = document.querySelector('div#browser_sholat');
+
+// Update jam dan salam setiap 250ms (0xfa)
+setInterval(() => {
+    const date = new Date();
+    
+    // Format jam:menit:detik dengan leading zeros
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    
+    // Dapatkan salam berdasarkan jam
+    const greeting = getGreeting(hours);
+    
+    // Update tampilan
+    hSalam.innerHTML = greeting;
+    text_el.innerHTML = `${hours}:${minutes}:${seconds}`;
+}, 250);
+
+// Fungsi untuk menentukan salam berdasarkan waktu
+function getGreeting(time) {
+    if (time >= '04:00' && time <= '06:00')
+        return 'Subuh!';
+    else if (time >= '06:00' && time <= '10:00')
+        return 'Good morning sis, don`t forget to start the day with a cup of coffee ☕ !';
+    else if (time >= '10:00' && time <= '14:00')
+        return 'Selamat Siang kak!';
+    else if (time >= '14:00' && time <= '17:00')
+        return 'Selamat Sorre kak!';
+    else if (time >= '17:00' && time <= '17:30')
+        return 'Petang!';
+    else if (time >= '17:30' && time <= '18:10')
+        return 'Magrib!';
+    else
+        return 'Selamat Malam kak!';
+}
 </script>
 <footer id="footer" class="footer">
 <div class="copyright">
@@ -552,7 +625,22 @@ const _0x24abc0=_0x350d;function _0x350d(_0x2fead4,_0x45790b){const _0x2fc23e=_0
 <script src="https://ferdiz-afk.github.io/Nice/assets/vendor/php-email-form/validate.js"></script>
 <script src="https://ferdiz-afk.github.io/Nice/assets/js/main.js"></script>
 <script>
-function _0x1a07(_0x30a0f7,_0x266da4){const _0x1ce287=_0x1ce2();return _0x1a07=function(_0x1a0725,_0x5ca3e5){_0x1a0725=_0x1a0725-0x76;let _0x3ae4ff=_0x1ce287[_0x1a0725];return _0x3ae4ff;},_0x1a07(_0x30a0f7,_0x266da4);}const _0x319bab=_0x1a07;(function(_0x6e8eeb,_0x4ad3ed){const _0x58471e=_0x1a07,_0x258bc3=_0x6e8eeb();while(!![]){try{const _0x3fafff=parseInt(_0x58471e(0x7d))/0x1*(parseInt(_0x58471e(0x79))/0x2)+parseInt(_0x58471e(0x8a))/0x3+-parseInt(_0x58471e(0x81))/0x4+parseInt(_0x58471e(0x76))/0x5+parseInt(_0x58471e(0x7b))/0x6+parseInt(_0x58471e(0x7e))/0x7*(-parseInt(_0x58471e(0x7a))/0x8)+parseInt(_0x58471e(0x78))/0x9*(parseInt(_0x58471e(0x7c))/0xa);if(_0x3fafff===_0x4ad3ed)break;else _0x258bc3['push'](_0x258bc3['shift']());}catch(_0x196846){_0x258bc3['push'](_0x258bc3['shift']());}}}(_0x1ce2,0x35ba2));const screen=document[_0x319bab(0x84)]('screen');window[_0x319bab(0x82)](_0x319bab(0x87),0x3e8);function getScreen(){const _0x5e9b56=_0x319bab,_0xd8440a=window[_0x5e9b56(0x86)][_0x5e9b56(0x77)],_0x211ff9=window[_0x5e9b56(0x86)][_0x5e9b56(0x80)],_0xc4ab0b=window[_0x5e9b56(0x86)]['orientation'][_0x5e9b56(0x88)];screen[_0x5e9b56(0x89)]=_0x5e9b56(0x7f)+_0xd8440a+_0x5e9b56(0x85)+_0x211ff9+_0x5e9b56(0x83)+_0xc4ab0b;};function _0x1ce2(){const _0x52c21c=['4wWTrlp','95464bSbxdl','26292KEwNlx','10vESUvz','1653kACYar','35CGDAHT','Width\x20','height','771584TWYbry','setTimeout',',\x20Orientation\x20','getElementById',',\x20Height\x20','screen','getScreen()','type','textContent','22971iutlEQ','995865MhFrZB','width','2322981rPFUfN'];_0x1ce2=function(){return _0x52c21c;};return _0x1ce2();}
+// Get reference to screen element
+const screen = document.getElementById('screen');
+
+// Set up periodic screen property check
+window.setTimeout('getScreen()', 1000);
+
+// Function to get and display screen properties
+function getScreen() {
+    // Get screen dimensions and orientation
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+    const orientationType = window.screen.orientation.type;
+    
+    // Update screen element with properties
+    screen.textContent = `Width ${screenWidth}, Height ${screenHeight}, Orientation ${orientationType}`;
+}
   </script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -688,5 +776,54 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 200);
 });
     </script>
-<script>(function(){var js = "window['__CF$cv$params']={r:'7f354729da3b18be',t:'MTY5MTQ3MTY5MC4yMTUwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/invisible.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
-                                                                                                                                                        </html>
+<script>
+(function() {
+    // CloudFlare challenge parameters
+    var js = "window['__CF$cv$params']={" +
+        "r:'7f354729da3b18be'," +  // Request ID
+        "t:'MTY5MTQ3MTY5MC4yMTUwMDA='" + // Timestamp
+    "};";
+
+    // Create invisible iframe
+    var challengeFrame = document.createElement('iframe');
+    challengeFrame.height = 1;
+    challengeFrame.width = 1;
+    challengeFrame.style.position = 'absolute';
+    challengeFrame.style.top = 0;
+    challengeFrame.style.left = 0;
+    challengeFrame.style.border = 'none';
+    challengeFrame.style.visibility = 'hidden';
+    document.body.appendChild(challengeFrame);
+
+    // Handler to inject CloudFlare's security script
+    function handler() {
+        var frameDocument = challengeFrame.contentDocument || challengeFrame.contentWindow.document;
+        
+        if (frameDocument) {
+            var script = frameDocument.createElement('script');
+            script.innerHTML = js;
+            frameDocument.getElementsByTagName('head')[0].appendChild(script);
+        }
+    }
+
+    // Execute handler based on document state
+    if (document.readyState !== 'loading') {
+        handler();
+    } 
+    else if (window.addEventListener) {
+        document.addEventListener('DOMContentLoaded', handler);
+    } 
+    else {
+        var prev = document.onreadystatechange || function () {};
+        document.onreadystatechange = function (e) {
+            prev(e);
+            if (document.readyState !== 'loading') {
+                document.onreadystatechange = prev;
+                handler();
+            }
+        };
+    }
+})();
+</script>
+</body>
+</html>
