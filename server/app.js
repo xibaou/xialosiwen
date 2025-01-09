@@ -79,6 +79,9 @@ app.get("/cuaca", limit, async (req, res) => {
 app.get("/google", limit, async (req, res) => {
     require("../pages/fitures/gol.js")(req, res)
 })
+app.get("/pinterest", limit, async (req, res) => {
+    require("../pages/fitures/pinter.js")(req, res)
+})
 app.get("/wallpaper", limit, async (req, res) => {
     require("../pages/fitures/wal.js")(req, res)
 })
