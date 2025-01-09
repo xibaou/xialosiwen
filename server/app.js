@@ -100,11 +100,32 @@ app.get("/shorturl", limit, async (req, res) => {
 app.get("/ytmp4", limit, async (req, res) => {
     require("../pages/fitures/yt.js")(req, res)
 })
+app.get("/wikipedia", limit, async (req, res) => {
+    require("../pages/fitures/wiki.js")(req, res)
+})
 app.get("/style", limit, async (req, res) => {
     require("../pages/fitures/sty.js")(req, res)
 })
+app.get("/anime", limit, async (req, res) => {
+    require("../pages/fitures/anime.js")(req, res)
+})
 app.get("/instagramDL", limit, async (req, res) => {
     require("../pages/fitures/instagram.js")(req, res)
+})
+app.get("/xnxxsearch", limit, async (req, res) => {
+    require("../pages/fitures/xsearch.js")(req, res)
+})
+app.get("/xnxxdl", limit, async (req, res) => {
+    require("../pages/fitures/xndl.js")(req, res)
+})
+app.get("/xvideosdl", limit, async (req, res) => {
+    require("../pages/fitures/xvdl.js")(req, res)
+})
+app.get("/xvideossearch", limit, async (req, res) => {
+    require("../pages/fitures/xvsearch.js")(req, res)
+})
+app.get("/pornhubsearch", limit, async (req, res) => {
+    require("../pages/fitures/psearch.js")(req, res)
 })
 app.get("/to-audio", limit, async (req, res) => {
     require("../pages/fitures/toaudio.js")(req, res)
