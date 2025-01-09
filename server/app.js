@@ -65,7 +65,7 @@ app.get("/blekbok", limit, async (req, res) => {
     require("../pages/fitures/blackbox.js")(req, res)
 })
 app.get("/txtimg", limit, async (req, res) => {
-    require("../pages/fiture/dale.js")(req, res)
+    require("../pages/fitures/dela.js")(req, res)
 })
 app.get("/playstore", limit, async (req, res) => {
     require("../pages/fitures/play.js")(req, res)
