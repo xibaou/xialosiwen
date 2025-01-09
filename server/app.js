@@ -12,8 +12,14 @@ const bodyParser = require('body-parser')
 const { limit, checkBanned } = require("../declaration/rateLimit.jsx")
 const isAuthenticated = require("../declaration/autentikasi.jsx")
 
+
+// Aktifkan trust proxy
+
+
+// Middleware dan rute lainnya
 const app = express()
 app.use(checkBanned)
+app.set('trust proxy', true);
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
