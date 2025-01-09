@@ -67,6 +67,9 @@ app.get("/blekbok", limit, async (req, res) => {
 app.get("/txtimg", limit, async (req, res) => {
     require("../pages/fiture/dale.js")(req, res)
 })
+app.get("/playstore", limit, async (req, res) => {
+    require("../pages/fiture/play.js")(req, res)
+})
 app.get("/iplookup", limit, async (req, res) => {
     require("../pages/fitures/ip.js")(req, res)
 })
