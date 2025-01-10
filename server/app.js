@@ -130,7 +130,7 @@ app.get("/xvideosdl", limit, async (req, res) => {
 app.get("/xvideossearch", limit, async (req, res) => {
     require("../pages/fitures/xvsearch.js")(req, res)
 })
-app.get("/pornhubsearch", limit, async (req, res) => {
+app.get("/nhentaisearch", limit, async (req, res) => {
     require("../pages/fitures/psearch.js")(req, res)
 })
 app.get("/to-audio", limit, async (req, res) => {
