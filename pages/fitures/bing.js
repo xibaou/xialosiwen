@@ -6,10 +6,18 @@ const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Import API 
 async function searchBing(query) {
   try {
     const url = `https://www.bing.com/search?q=${encodeURIComponent(query)}`; // Encode query
-    const { data } = await axios.get(url); // Fetch search results
-    const $ = cheerio.load(data); // Load HTML using Cheerio
+    const { data } = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+      },
+    });
 
+    // Debug HTML to verify structure
+    console.log('Response HTML:', data);
+
+    const $ = cheerio.load(data); // Load HTML using Cheerio
     const results = [];
+
     $('.b_algo').each((index, element) => {
       const title = $(element).find('h2').text().trim();
       const link = $(element).find('a').attr('href')?.trim();
@@ -24,8 +32,12 @@ async function searchBing(query) {
       });
     });
 
+    // Debug parsed results
+    console.log('Parsed Results:', results);
+
     return results; // Return search results
   } catch (error) {
+    console.error('Error fetching search results:', error.message);
     throw new Error('Error fetching search results: ' + error.message);
   }
 }
