@@ -1,85 +1,78 @@
-/*
- * by kaizel jskai
- * don't delete my wm
- * follow more on Instagram: @iqstore78
- */
+const axios = require('axios');
+const cheerio = require('cheerio');
+const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Importing allowed API keys
 
-const axios = require("axios");
-const cheerio = require("cheerio");
-const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Tempatkan daftar API keys yang diperbolehkan
+// Function to fetch and scrape the page based on search query
+async function scrapeNyaa(query) {
+  try {
+    // URL to scrape, with the query parameter dynamically added
+    const url = `https://nhentai.net/search/?q=${encodeURIComponent(query)}`;
+    
+    // Fetching the page content
+    const { data } = await axios.get(url);
+
+    // Using cheerio to load the HTML
+    const $ = cheerio.load(data);
+
+    // Select each gallery item
+    const galleries = [];
+
+    $('.gallery').each((index, element) => {
+      const title = $(element).find('.caption').text().trim();
+      const link = $(element).find('a').attr('href');
+      const imgSrc = $(element).find('img').attr('data-src');
+
+      // Store gallery data
+      galleries.push({
+        title,
+        link: `https://nhentai.net${link}`,
+        imgSrc,
+      });
+    });
+
+    return galleries;  // Return scraped data
+  } catch (error) {
+    throw new Error('Error scraping the page: ' + error.message);
+  }
+}
 
 module.exports = async (req, res) => {
-  const query = req.query.query || ""; // Query pencarian
-  const apiKey = req.query.apiKey; // API Key untuk autentikasi
+  const query = req.query.query || ''; // Query search term
+  const apiKey = req.query.apiKey; // API key for authentication
 
-  // Memastikan query tidak kosong
+  // Ensure query is provided
   if (!query) {
     return res.status(400).json({
-      error: "Query pencarian diperlukan!",
+      error: 'Search query is required!',
     });
   }
 
-  // Memastikan API key valid
+  // Ensure API key is valid
   if (!apiKey || !allowedApiKeys.includes(apiKey)) {
     return res.status(403).json({
-      error: "Input Parameter Apikey!",
+      error: 'Invalid API key!',
     });
-  }
-
-  // Fungsi untuk scraping hasil pencarian dari Pornhub
-  async function scrapePornhub(query) {
-    try {
-      const url = `https://www.pornhub.com/video/search?search=${encodeURIComponent(query)}`;
-      const { data } = await axios.get(url, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        },
-      });
-
-      const $ = cheerio.load(data);
-      const results = [];
-
-      $(".pcVideoListItem").each((i, el) => {
-        const title = $(el).find(".title a").text().trim();
-        const url = `https://www.pornhub.com${$(el).find(".title a").attr("href")}`;
-        const duration = $(el).find(".duration").text().trim();
-        const thumbnail = $(el).find("img").attr("data-src") || $(el).find("img").attr("src");
-
-        if (title && url) {
-          results.push({
-            title,
-            url,
-            duration,
-            thumbnail,
-          });
-        }
-      });
-
-      return results;
-    } catch (error) {
-      throw new Error("Gagal melakukan scraping.");
-    }
   }
 
   try {
-    // Mendapatkan hasil pencarian
-    const results = await scrapePornhub(query);
+    // Scraping the results from nhentai
+    const results = await scrapeNyaa(query);
 
     if (results.length === 0) {
       return res.status(404).json({
-        error: "Hasil pencarian tidak ditemukan!",
+        error: 'No results found!',
       });
     }
 
-    // Menyusun hasil pencarian
+    // Returning the search results
     res.status(200).json({
-      creator: "kaizel jskai",
+      creator: 'kaizel jskai',
       query: query,
       results: results,
     });
   } catch (error) {
     res.status(500).json({
-      error: error.message || "Terjadi kesalahan dalam pencarian konten.",
+      error: error.message || 'An error occurred while searching.',
     });
   }
 };
