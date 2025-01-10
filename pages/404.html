@@ -375,8 +375,11 @@
                     <li><a class="nav-content-item" href="/shorturl?url=https://youtu.be/nyuo9-OjNNg?si=NZnGXDxotU2UoNkb&apiKey=">URL Shortener</a></li>
                 <ul class="nav-content">
                     <li><a class="nav-content-item" href="/text2promt?text=&apiKey=">Text2promt</a></li>
+                <ul class="nav-content">
                     <li><a class="nav-content-item" href="/descriptimage?url=&apiKey=">Text2promt</a></li>
+                <ul class="nav-content">
                     <li><a class="nav-content-item" href="/transcriptyt?urls=https://youtu.be/nyuo9-OjNNg?si=NZnGXDxotU2UoNkb&apiKey=">Youtube Transcript</a></li>
+                <ul class="nav-content">
                     <li><a class="nav-content-item" href="/style?q=">Style</a></li>
                 </ul>
             </li>
@@ -552,7 +555,7 @@
                     batteryLevelElement.innerHTML = Math.round(battery.level * 100) + '%';
                     
                     // Update status charging (⚡⚡ jika charging, "discharging" jika tidak)
-                    chargingStatusElement.innerHTML = battery.charging ? '⚡⚡' : 'discharging';
+                    chargingStatusElement.innerHTML = battery.charging ? 'menyala ⚡' : 'discharging';
                     
                     // Log status ke console
                     console.log('Set status ' + batteryLevelElement.innerHTML + ' ' + chargingStatusElement.innerHTML);
