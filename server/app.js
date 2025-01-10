@@ -73,6 +73,9 @@ app.get("/blekbok", limit, async (req, res) => {
 app.get("/txtimg", limit, async (req, res) => {
     require("../pages/fitures/dela.js")(req, res)
 })
+app.get("/descriptimage", limit, async (req, res) => {
+    require("../pages/fitures/desc.js")(req, res)
+})
 app.get("/playstore", limit, async (req, res) => {
     require("../pages/fitures/play.js")(req, res)
 })
@@ -91,8 +94,32 @@ app.get("/pinterest", limit, async (req, res) => {
 app.get("/wallpaper", limit, async (req, res) => {
     require("../pages/fitures/wal.js")(req, res)
 })
+app.get("/cord", limit, async (req, res) => {
+    require("../pages/fitures/cord.js")(req, res)
+})
+app.get("/duckduckgo", limit, async (req, res) => {
+    require("../pages/fitures/duck.js")(req, res)
+})
+app.get("/ytmp3", limit, async (req, res) => {
+    require("../pages/fitures/ytmp3.js")(req, res)
+})
+app.get("/ebay", limit, async (req, res) => {
+    require("../pages/fitures/ebay.js")(req, res)
+})
 app.get("/googleimage", limit, async (req, res) => {
     require("../pages/fitures/img.js")(req, res)
+})
+app.get("/bing", limit, async (req, res) => {
+    require("../pages/fitures/bing.js")(req, res)
+})
+app.get("/ytmp4v2", limit, async (req, res) => {
+    require("../pages/fitures/ytmp4.js")(req, res)
+})
+app.get("/transcriptyt", limit, async (req, res) => {
+    require("../pages/fitures/yttr.js")(req, res)
+})
+app.get("/text2promt", limit, async (req, res) => {
+    require("../pages/fitures/text2.js")(req, res)
 })
 app.get("/crypto", limit, async (req, res) => {
     require("../pages/fitures/cripto.js")(req, res)
@@ -132,6 +159,9 @@ app.get("/xvideossearch", limit, async (req, res) => {
 })
 app.get("/nhentaisearch", limit, async (req, res) => {
     require("../pages/fitures/psearch.js")(req, res)
+})
+app.get("/soundcloud", limit, async (req, res) => {
+    require("../pages/fitures/scs.js")(req, res)
 })
 app.get("/to-audio", limit, async (req, res) => {
     require("../pages/fitures/toaudio.js")(req, res)
