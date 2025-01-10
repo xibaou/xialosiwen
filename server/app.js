@@ -151,6 +151,9 @@ app.get("/xnxxsearch", limit, async (req, res) => {
 app.get("/xnxxdl", limit, async (req, res) => {
     require("../pages/fitures/xndl.js")(req, res)
 })
+app.get("/bingdata", limit, async (req, res) => {
+    require("../pages/fitures/bingdata.js")(req, res)
+})
 app.get("/xvideosdl", limit, async (req, res) => {
     require("../pages/fitures/xvdl.js")(req, res)
 })
