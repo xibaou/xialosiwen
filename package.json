@@ -20,6 +20,6 @@
     "node-fetch": "^2.6.7",
     "form-data": "^4.0.1",
     "g-i-s": "2.1.7",
-    "this-ytdl": "github:balxz/this-ytdl"
+    "groq-sdk": "^0.12.0"
   }
 }
