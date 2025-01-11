@@ -14,10 +14,10 @@ function generateRandomRid() {
 const client = new Groq({ apiKey: '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' });
 
 module.exports = async (req, res) => {
-  const q = req.query.q || ""; // Prompt atau pertanyaan dari user
+  const q = req.query.q || ""; // Query atau pertanyaan dari user
   const apiKey = req.query.apiKey; // API key
 
-  if (!prompt) {
+  if (!q) {
     return res.status(400).json({
       error: "Mau nanya apa lu njir",
     });
@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
   try {
     const chatCompletion = await client.chat.completions.create({
       messages: [
-        { role: "system", content: "Kamu Adalah kaizel kazami Dengan Memakai Bahasa Indonesia Dan Bergaulan" },
+        { role: "system", content: "Kamu Adalah Yuta Okkotsu Jujutsu kaisen Dengan Memakai Bahasa Indonesia Dan Bergaulan" },
         { role: "user", content: q },
       ],
       model: 'llama3-8b-8192',
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
     const hasil = chatCompletion.choices[0].message.content;
 
     res.status(200).json({
-      creator: "kaizel kaijs", // Nama kreator
+      creator: "balxzzy", // Nama kreator
       question: q, // Pertanyaan dari user
       answer: hasil || "Tidak ada jawaban yang tersedia", // Jawaban dari API
       rid: rid, // RID untuk pelacakan
