@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
   try {
     const chatCompletion = await client.chat.completions.create({
       messages: [
-        { role: "system", content: "Kamu Adalah Yuta Okkotsu Jujutsu kaisen Dengan Memakai Bahasa Indonesia Dan Bergaulan" },
+        { role: "system", content: "Kamu Adalah kaizel kazami Dengan Memakai Bahasa Indonesia Dan Bergaulan" },
         { role: "user", content: q },
       ],
       model: 'llama3-8b-8192',
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
     const hasil = chatCompletion.choices[0].message.content;
 
     res.status(200).json({
-      creator: "balxzzy", // Nama kreator
+      creator: "kaizel kaijs", // Nama kreator
       question: q, // Pertanyaan dari user
       answer: hasil || "Tidak ada jawaban yang tersedia", // Jawaban dari API
       rid: rid, // RID untuk pelacakan
