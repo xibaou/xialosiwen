@@ -14,7 +14,7 @@ function generateRandomRid() {
 const client = new Groq({ apiKey: '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' });
 
 module.exports = async (req, res) => {
-  const prompt = req.query.prompt || ""; // Prompt atau pertanyaan dari user
+  const q = req.query.q || ""; // Prompt atau pertanyaan dari user
   const apiKey = req.query.apiKey; // API key
 
   if (!prompt) {
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
     const chatCompletion = await client.chat.completions.create({
       messages: [
         { role: "system", content: "Kamu Adalah kaizel kazami Dengan Memakai Bahasa Indonesia Dan Bergaulan" },
-        { role: "user", content: prompt },
+        { role: "user", content: q },
       ],
       model: 'llama3-8b-8192',
     });
@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json({
       creator: "kaizel kaijs", // Nama kreator
-      question: prompt, // Pertanyaan dari user
+      question: q, // Pertanyaan dari user
       answer: hasil || "Tidak ada jawaban yang tersedia", // Jawaban dari API
       rid: rid, // RID untuk pelacakan
     });
