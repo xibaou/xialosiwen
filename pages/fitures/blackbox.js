@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
       creator: "kaizel kaijs", // Nama kreator
       question: q, // Pertanyaan dari user
       answer: hasil || "Tidak ada jawaban yang tersedia", // Jawaban dari API
-      rid: rid, // RID untuk pelacakan
+  
     });
   } catch (error) {
     res.status(500).json({
