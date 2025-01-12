@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["package.json", "package-lock.json"]
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -14,12 +11,5 @@
       "src": "/(.*)",
       "dest": "index.js"
     }
-  ],
-  "build": {
-    "env": {
-      "NODE_ENV": "production",
-      "PKG_CONFIG_PATH": "/usr/lib/pkgconfig"
-    },
-    "installCommand": "apt-get update && apt-get install -y build-essential libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev librsvg2-dev && npm install"
-  }
+  ]
 }
