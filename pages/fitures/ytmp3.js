@@ -1,13 +1,13 @@
 const axios = require("axios");
-const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Ganti dengan path file API key Anda
+const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Ganti dengan path ke file API key Anda
 
-// Fungsi untuk mendapatkan detail MP3 YouTube
+// Fungsi untuk mendapatkan link unduhan MP3
 async function getYoutubeMp3(url) {
   try {
     const apiUrl = "https://fgsi-ytdl.hf.space/";
     const response = await axios.post(
       apiUrl,
-      { url: url, type: "mp3" }, // Kirim data URL dan tipe
+      { url: url, type: "mp3" },
       {
         headers: {
           "Content-Type": "application/json",
@@ -19,21 +19,12 @@ async function getYoutubeMp3(url) {
     );
 
     if (response.status === 200) {
-      const data = response.data;
-      return {
-        title: data.title,
-        duration: data.duration,
-        thumbnail: data.thumbnail,
-        audio: {
-          url: data.url,
-          size: data.size,
-        },
-      };
+      return response.data.url; // Link unduhan file MP3
     } else {
-      throw new Error("Failed to fetch data. Status code: " + response.status);
+      throw new Error("Failed to fetch download URL. Status code: " + response.status);
     }
   } catch (error) {
-    throw new Error("Error fetching YouTube MP3 details: " + error.message);
+    throw new Error("Error fetching MP3 download URL: " + error.message);
   }
 }
 
@@ -56,13 +47,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const result = await getYoutubeMp3(url);
+    const downloadUrl = await getYoutubeMp3(url);
 
-    res.status(200).json({
-      creator: "kaizel jskai",
-      url: url,
-      details: result,
-    });
+    // Redirect browser untuk langsung mengunduh file
+    res.redirect(downloadUrl);
   } catch (error) {
     res.status(500).json({
       error: error.message || "An error occurred while processing the request.",
