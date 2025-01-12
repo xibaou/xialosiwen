@@ -1,53 +1,39 @@
 const axios = require("axios");
-const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Ganti dengan path ke file API key Anda
+const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Ganti dengan path file API key Anda
 
+// Fungsi untuk mendapatkan detail video YouTube
 async function getYoutubeDetails(url) {
   try {
-    const response = await axios.post(
-      "https://xnplfwb46ecpt6xezyxjieolp40vifvi.lambda-url.ap-south-1.on.aws/",
-      { body: { url } },
+    const response = await axios.get(
+      `https://web-production-32cf.up.railway.app/api/download/ytmp3?url=${encodeURIComponent(url)}&apikey=Zexxabot`,
       {
         headers: {
           "User-Agent":
             "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/537.36",
-          Referer: "https://savetubeonline.com/",
-          "Content-Type": "application/json",
         },
+        timeout: 10000, // Timeout 10 detik
       }
     );
 
-    const result = {
-      title: response.data.title,
-      duration: response.data.duration,
-      thumbnail: response.data.thumbnail,
-      view_count: response.data.view_count,
-      video: response.data.formats
-        .filter(
-          (format) =>
-            ["360p", "720p", "1080p", "1440p", "2160p"].includes(format.format_note) &&
-            format.ext === "mp4"
-        )
-        .map((format) => ({
-          format: format.format_note,
-          url: format.url,
-          filesize: format.filesize,
-          aspect_ratio: format.aspect_ratio,
-        })),
-      audio: response.data.formats
-        .filter((format) => format.ext === "m4a")
-        .map((format) => ({
-          url: format.url,
-          filesize: format.filesize,
-          audio_channels: format.audio_channels,
-        })),
-    };
+    const data = response.data.result;
 
-    return result;
+    return {
+      title: data.title,
+      duration: data.duration,
+      thumbnail: data.thumb,
+      quality: data.quality,
+      size: data.size,
+      audio: {
+        url: data.url_dl,
+        filesize: data.sizeB,
+      },
+    };
   } catch (error) {
     throw new Error("Error fetching YouTube details: " + error.message);
   }
 }
 
+// Fungsi utama (API endpoint handler)
 module.exports = async (req, res) => {
   const url = req.query.url || "";
   const apiKey = req.query.apiKey;
@@ -71,14 +57,7 @@ module.exports = async (req, res) => {
     res.status(200).json({
       creator: "kaizel jskai",
       url: url,
-      details: {
-        title: result.title,
-        duration: result.duration,
-        thumbnail: result.thumbnail,
-        view_count: result.view_count,
-        video: result.video,
-        audio: result.audio,
-      },
+      details: result,
     });
   } catch (error) {
     res.status(500).json({
