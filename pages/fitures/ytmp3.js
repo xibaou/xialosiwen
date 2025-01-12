@@ -1,13 +1,16 @@
 const axios = require("axios");
 const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Ganti dengan path file API key Anda
 
-// Fungsi untuk mendapatkan detail video YouTube
-async function getYoutubeDetails(url) {
+// Fungsi untuk mendapatkan detail MP3 YouTube
+async function getYoutubeMp3(url) {
   try {
-    const response = await axios.get(
-      `https://web-production-32cf.up.railway.app/api/download/ytmp3?url=${encodeURIComponent(url)}&apikey=Zexxabot`,
+    const apiUrl = "https://fgsi-ytdl.hf.space/";
+    const response = await axios.post(
+      apiUrl,
+      { url: url, type: "mp3" }, // Kirim data URL dan tipe
       {
         headers: {
+          "Content-Type": "application/json",
           "User-Agent":
             "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/537.36",
         },
@@ -15,21 +18,22 @@ async function getYoutubeDetails(url) {
       }
     );
 
-    const data = response.data.result;
-
-    return {
-      title: data.title,
-      duration: data.duration,
-      thumbnail: data.thumb,
-      quality: data.quality,
-      size: data.size,
-      audio: {
-        url: data.url_dl,
-        filesize: data.sizeB,
-      },
-    };
+    if (response.status === 200) {
+      const data = response.data;
+      return {
+        title: data.title,
+        duration: data.duration,
+        thumbnail: data.thumbnail,
+        audio: {
+          url: data.url,
+          size: data.size,
+        },
+      };
+    } else {
+      throw new Error("Failed to fetch data. Status code: " + response.status);
+    }
   } catch (error) {
-    throw new Error("Error fetching YouTube details: " + error.message);
+    throw new Error("Error fetching YouTube MP3 details: " + error.message);
   }
 }
 
@@ -52,7 +56,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const result = await getYoutubeDetails(url);
+    const result = await getYoutubeMp3(url);
 
     res.status(200).json({
       creator: "kaizel jskai",
