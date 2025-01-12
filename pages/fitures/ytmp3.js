@@ -1,59 +1,98 @@
-const axios = require("axios");
-const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Ganti dengan path ke file API key Anda
+const axios = require('axios');
+const cheerio = require('cheerio');
+const allowedApiKeys = require("../../declaration/arrayKey.jsx");
 
-// Fungsi untuk mendapatkan link unduhan MP3
-async function getYoutubeMp3(url) {
-  try {
-    const apiUrl = "https://fgsi-ytdl.hf.space/";
-    const response = await axios.post(
-      apiUrl,
-      { url: url, type: "mp3" },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "User-Agent":
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/537.36",
-        },
-        timeout: 10000, // Timeout 10 detik
-      }
-    );
-
-    if (response.status === 200) {
-      return response.data.url; // Link unduhan file MP3
-    } else {
-      throw new Error("Failed to fetch download URL. Status code: " + response.status);
-    }
-  } catch (error) {
-    throw new Error("Error fetching MP3 download URL: " + error.message);
-  }
-}
-
-// Fungsi utama (API endpoint handler)
 module.exports = async (req, res) => {
-  const url = req.query.url || "";
+  const { url } = req.query;
   const apiKey = req.query.apiKey;
 
-  // Validasi input
+  // Valurlasi input
   if (!url) {
     return res.status(400).json({
-      error: "YouTube URL is required!",
+      creator: "Kaizel Kaijs",
+      error: "ID tidak ditemukan. Harap sertakan ID yang valid.",
     });
   }
 
   if (!apiKey || !allowedApiKeys.includes(apiKey)) {
     return res.status(403).json({
-      error: "Invalid API key!",
+      creator: "Kaizel Kaijs",
+      error: "API key tidak valid atau tidak disediakan!",
     });
   }
 
-  try {
-    const downloadUrl = await getYoutubeMp3(url);
+  const mainUrl = `https://nhentai.net/g/${url}/`;
+  const imageUrls = [];
 
-    // Redirect browser untuk langsung mengunduh file
-    res.redirect(downloadUrl);
+  try {
+    // Fetch main page
+    const { data } = await axios.get(mainUrl);
+    const $ = cheerio.load(data);
+
+    // Extract title
+    const title = $('h1.title').text().trim();
+
+    // Extract thumbnail
+    const thumbnail = $('meta[property="og:image"]').attr('content');
+
+    // Extract tags
+    const tags = [];
+    $('span.name').each((index, element) => {
+      tags.push($(element).text().trim());
+    });
+
+    // Extract number of pages
+    const pages = parseInt($('.tag-container:contains("Pages:") .name').text()) || 0;
+
+    // Extract gallery ID from thumbnail URL
+    const galleryMatch = thumbnail?.match(/galleries\/(\d+)/);
+    const galleryId = galleryMatch ? galleryMatch[1] : null;
+
+    // If we have gallery ID and pages count, construct image URLs
+    if (galleryId && pages > 0) {
+      // Determine image server (t.nhentai.net)
+      const serverNum = Math.floor(Math.random() * 5) + 1; // t1 to t5
+
+      // Generate URLs for all pages
+      for (let i = 1; i <= pages; i++) {
+        const imageUrl = `https://t${serverNum}.nhentai.net/galleries/${galleryId}/${i}.jpg`;
+        imageUrls.push(imageUrl);
+      }
+    }
+
+    // Get metadata
+    const metadata = {
+      url,
+      title,
+      thumbnail,
+      tags,
+      pages,
+      galleryId,
+      uploadDate: $('.tag-container:contains("Uploaded:") time').attr('datetime'),
+      favorites: parseInt($('.btn-primary .nobold').text().match(/\d+/)?.[0] || '0'),
+      artist: $('.tag-container:contains("Artists:") .name').first().text(),
+      group: $('.tag-container:contains("Groups:") .name').first().text(),
+      languages: $('.tag-container:contains("Languages:") .name')
+        .map((_, el) => $(el).text())
+        .get(),
+      category: $('.tag-container:contains("Categories:") .name').first().text(),
+    };
+
+    // Respons sukses
+    res.status(200).json({
+      creator: "Kaizel Kaijs",
+      status: true,
+      result: {
+        ...metadata,
+        imageUrls,
+      },
+    });
   } catch (error) {
+    // Respons error
     res.status(500).json({
-      error: error.message || "An error occurred while processing the request.",
+      creator: "Kaizel Kaijs",
+      status: false,
+      error: `Gagal mengambil data dari NHentai: ${error.message}`,
     });
   }
 };
