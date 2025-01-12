@@ -4,6 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "install": "npm run setup",
+    "setup": "npm install --build-from-source",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,6 +23,7 @@
     "form-data": "^4.0.1",
     "g-i-s": "2.1.7",
     "groq-sdk": "^0.12.0",
-    "canvafy": "^7.2.0"
+    "canvafy": "^7.2.0",
+    "canvas": "^2.11.2"
   }
 }
