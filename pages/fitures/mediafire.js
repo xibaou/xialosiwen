@@ -20,18 +20,19 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Ambil konten HTML dari MediaFire
     const response = await fetch(url);
     const html = await response.text();
     const $ = cheerio.load(html);
 
-    // Parsing informasi dari halaman MediaFire
-    const filename = $(".dl-btn-label").attr("title");
-    const size = $(".download_link .input").text().trim().match(/(.*?)/)[1];
+    // Validasi elemen sebelum digunakan
+    const filename = $(".dl-btn-label").attr("title") || "Unknown";
+    const sizeMatch = $(".download_link .input").text().trim().match(/(.*?)/);
+    const size = sizeMatch ? sizeMatch[1] : "Unknown";
     const ext = filename.split(".").pop();
     const mimetype = lookup(ext.toLowerCase()) || "application/" + ext.toLowerCase();
-    const download = $(".input").attr("href");
+    const download = $(".input").attr("href") || "";
 
+    // Periksa data yang wajib ada
     if (!filename || !download) {
       return res.status(400).json({
         error: "Gagal mengambil data dari URL MediaFire!",
@@ -48,6 +49,7 @@ module.exports = async (req, res) => {
       download,
     });
   } catch (error) {
+    console.error("Error processing URL:", error.message);
     res.status(500).json({
       creator: "kaizel Kaijs",
       error: `Error processing the URL: ${error.message}`,
