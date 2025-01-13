@@ -1,98 +1,55 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
-const allowedApiKeys = require("../../declaration/arrayKey.jsx");
+const allowedApiKeys = require("../../declaration/arrayKey.jsx"); // Replace with path to your API keys file
 
+// Fetch Video Data
+async function fetchVideoData(url) {
+  const fullUrl = `https://web-production-32cf.up.railway.app/api/download/xvideosdl?url=${encodeURIComponent(url)}&apikey=Zexxabot`;
+https://web-production-32cf.up.railway.app/api/download/xvideosdl?url=${encodeURIComponent(url)}&apikey=Zexxabot
+  try {
+    const response = await axios.get(fullUrl, { timeout: 10000 }); // Timeout 10 seconds
+
+    if (response.status === 200) {
+      const { author, ...dataWithoutAuthor } = response.data; // Remove author if exists
+      return dataWithoutAuthor;
+    } else {
+      throw new Error(`Failed to fetch data. Status code: ${response.status}`);
+    }
+  } catch (error) {
+    throw new Error(`Error occurred while fetching data: ${error.message}`);
+  }
+}
+
+// API Handler
 module.exports = async (req, res) => {
-  const { url } = req.query;
+  const url = req.query.url || "";
   const apiKey = req.query.apiKey;
 
-  // Valurlasi input
+  // Validate Input
   if (!url) {
     return res.status(400).json({
-      creator: "Kaizel Kaijs",
-      error: "ID tidak ditemukan. Harap sertakan ID yang valid.",
+      error: "Video URL is required!",
     });
   }
 
   if (!apiKey || !allowedApiKeys.includes(apiKey)) {
     return res.status(403).json({
-      creator: "Kaizel Kaijs",
-      error: "API key tidak valid atau tidak disediakan!",
+      error: "Invalid API key!",
     });
   }
 
-  const mainUrl = `https://nhentai.net/g/${url}/`;
-  const imageUrls = [];
-
   try {
-    // Fetch main page
-    const { data } = await axios.get(mainUrl);
-    const $ = cheerio.load(data);
+    const result = await fetchVideoData(url);
 
-    // Extract title
-    const title = $('h1.title').text().trim();
-
-    // Extract thumbnail
-    const thumbnail = $('meta[property="og:image"]').attr('content');
-
-    // Extract tags
-    const tags = [];
-    $('span.name').each((index, element) => {
-      tags.push($(element).text().trim());
-    });
-
-    // Extract number of pages
-    const pages = parseInt($('.tag-container:contains("Pages:") .name').text()) || 0;
-
-    // Extract gallery ID from thumbnail URL
-    const galleryMatch = thumbnail?.match(/galleries\/(\d+)/);
-    const galleryId = galleryMatch ? galleryMatch[1] : null;
-
-    // If we have gallery ID and pages count, construct image URLs
-    if (galleryId && pages > 0) {
-      // Determine image server (t.nhentai.net)
-      const serverNum = Math.floor(Math.random() * 5) + 1; // t1 to t5
-
-      // Generate URLs for all pages
-      for (let i = 1; i <= pages; i++) {
-        const imageUrl = `https://t${serverNum}.nhentai.net/galleries/${galleryId}/${i}.jpg`;
-        imageUrls.push(imageUrl);
-      }
-    }
-
-    // Get metadata
-    const metadata = {
-      url,
-      title,
-      thumbnail,
-      tags,
-      pages,
-      galleryId,
-      uploadDate: $('.tag-container:contains("Uploaded:") time').attr('datetime'),
-      favorites: parseInt($('.btn-primary .nobold').text().match(/\d+/)?.[0] || '0'),
-      artist: $('.tag-container:contains("Artists:") .name').first().text(),
-      group: $('.tag-container:contains("Groups:") .name').first().text(),
-      languages: $('.tag-container:contains("Languages:") .name')
-        .map((_, el) => $(el).text())
-        .get(),
-      category: $('.tag-container:contains("Categories:") .name').first().text(),
-    };
-
-    // Respons sukses
     res.status(200).json({
-      creator: "Kaizel Kaijs",
-      status: true,
-      result: {
-        ...metadata,
-        imageUrls,
-      },
+      creator: "kaizel jskai",
+      url: url,
+      details: result,
     });
   } catch (error) {
-    // Respons error
     res.status(500).json({
-      creator: "Kaizel Kaijs",
-      status: false,
-      error: `Gagal mengambil data dari NHentai: ${error.message}`,
+      error: error.message || "An error occurred while processing the request.",
     });
   }
 };
+
+
