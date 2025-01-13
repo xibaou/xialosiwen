@@ -66,9 +66,7 @@ app.get("/prof", isAuthenticated, (req, res) => {
 app.get("/blekbok", limit, async (req, res) => {
     require("../pages/fitures/blackbox.js")(req, res)
 })
-app.get("/tweet", limit, async (req, res) => {
-    require("../pages/fitures/tweet.js")(req, res)
-})
+
 
 app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, "../pages/404.html"))
